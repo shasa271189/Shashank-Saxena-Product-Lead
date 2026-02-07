@@ -1,0 +1,1226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shashank Saxena | Product Manager</title>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@300;400;600;700&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #1a1a2e;
+            --secondary: #16213e;
+            --accent: #0f3460;
+            --highlight: #e94560;
+            --text-light: #f1f1f1;
+            --text-muted: #a8a8a8;
+            --card-bg: #23263a;
+        }
+
+        body {
+            font-family: 'Work Sans', sans-serif;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 50%, var(--accent) 100%);
+            color: var(--text-light);
+            line-height: 1.6;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .noise-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 1.5rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(26, 26, 46, 0.95);
+            backdrop-filter: blur(15px);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(233, 69, 96, 0.2);
+            transition: all 0.3s;
+        }
+
+        nav.scrolled {
+            padding: 1rem 5%;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .logo {
+            font-family: 'Crimson Pro', serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .logo:hover {
+            color: var(--highlight);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--highlight);
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--highlight);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-links a.active {
+            color: var(--highlight);
+        }
+
+        .nav-links a.active::after {
+            width: 100%;
+        }
+
+        .mobile-menu-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            z-index: 1001;
+        }
+
+        .mobile-menu-toggle span {
+            width: 25px;
+            height: 3px;
+            background: var(--text-light);
+            transition: all 0.3s;
+            border-radius: 2px;
+        }
+
+        .mobile-menu-toggle.active span:nth-child(1) {
+            transform: rotate(45deg) translate(8px, 8px);
+        }
+
+        .mobile-menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .mobile-menu-toggle.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -7px);
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 5%;
+            position: relative;
+            z-index: 2;
+        }
+
+        section {
+            min-height: 100vh;
+            padding: 140px 0 100px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .hero {
+            text-align: center;
+            animation: fadeInUp 1s ease-out;
+            padding: 160px 0 100px;
+        }
+
+        .hero h1 {
+            font-family: 'Crimson Pro', serif;
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: 700;
+            margin-bottom: 1rem;
+            line-height: 1.1;
+            background: linear-gradient(135deg, var(--text-light), var(--highlight));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero .subtitle {
+            font-size: clamp(1.2rem, 3vw, 1.8rem);
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+            font-weight: 300;
+        }
+
+        .hero .tagline {
+            font-size: 1.1rem;
+            color: var(--text-light);
+            max-width: 700px;
+            margin: 0 auto 3rem;
+            line-height: 1.8;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            background: var(--highlight);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s;
+            border: 2px solid var(--highlight);
+        }
+
+        .cta-button:hover {
+            background: transparent;
+            color: var(--highlight);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(233, 69, 96, 0.3);
+        }
+
+        .section-title {
+            font-family: 'Crimson Pro', serif;
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .section-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            margin-bottom: 4rem;
+            max-width: 700px;
+        }
+
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            animation: fadeInUp 1s ease-out 0.2s both;
+        }
+
+        .about-text {
+            font-size: 1.1rem;
+            line-height: 1.9;
+        }
+
+        .about-text p {
+            margin-bottom: 1.5rem;
+        }
+
+        .highlight-text {
+            color: var(--highlight);
+            font-weight: 600;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+        }
+
+        .stat-card {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 15px;
+            border: 1px solid rgba(233, 69, 96, 0.2);
+            transition: all 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--highlight);
+            box-shadow: 0 10px 30px rgba(233, 69, 96, 0.2);
+        }
+
+        .stat-number {
+            font-family: 'Crimson Pro', serif;
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--highlight);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        .experience-tabs {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 3rem;
+            border-bottom: 2px solid rgba(233, 69, 96, 0.2);
+            flex-wrap: wrap;
+        }
+
+        .tab {
+            padding: 1rem 2rem;
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            border-bottom: 3px solid transparent;
+            font-family: 'Work Sans', sans-serif;
+        }
+
+        .tab:hover {
+            color: var(--text-light);
+        }
+
+        .tab.active {
+            color: var(--highlight);
+            border-bottom-color: var(--highlight);
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeInUp 0.5s ease-out;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .experience-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .experience-card {
+            background: var(--card-bg);
+            padding: 2.5rem;
+            border-radius: 15px;
+            border: 1px solid rgba(233, 69, 96, 0.2);
+            transition: all 0.3s;
+        }
+
+        .experience-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--highlight);
+            box-shadow: 0 15px 40px rgba(233, 69, 96, 0.2);
+        }
+
+        .card-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .card-title {
+            font-family: 'Crimson Pro', serif;
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .card-description {
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+            line-height: 1.7;
+        }
+
+        .card-list {
+            list-style: none;
+            margin-top: 1.5rem;
+        }
+
+        .card-list li {
+            padding: 0.5rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+            color: var(--text-muted);
+        }
+
+        .card-list li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--highlight);
+        }
+
+        .resources-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .resource-card {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 15px;
+            border: 1px solid rgba(233, 69, 96, 0.2);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .resource-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--highlight);
+            box-shadow: 0 15px 40px rgba(233, 69, 96, 0.2);
+        }
+
+        .resource-tag {
+            display: inline-block;
+            padding: 0.4rem 1rem;
+            background: rgba(233, 69, 96, 0.2);
+            color: var(--highlight);
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .resource-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .resource-description {
+            color: var(--text-muted);
+            line-height: 1.7;
+        }
+
+        .contact-content {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .contact-links {
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            margin-top: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .contact-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.8rem;
+            padding: 1rem 2rem;
+            background: var(--card-bg);
+            color: var(--text-light);
+            text-decoration: none;
+            border-radius: 50px;
+            border: 1px solid rgba(233, 69, 96, 0.2);
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .contact-link:hover {
+            border-color: var(--highlight);
+            background: rgba(233, 69, 96, 0.1);
+            transform: translateY(-3px);
+        }
+
+        footer {
+            text-align: center;
+            padding: 3rem 0;
+            color: var(--text-muted);
+            border-top: 1px solid rgba(233, 69, 96, 0.2);
+            position: relative;
+            z-index: 2;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .mobile-menu-toggle {
+                display: flex;
+            }
+
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 70%;
+                height: 100vh;
+                background: rgba(26, 26, 46, 0.98);
+                backdrop-filter: blur(15px);
+                flex-direction: column;
+                padding: 100px 2rem 2rem;
+                gap: 2rem;
+                transition: right 0.3s ease;
+                border-left: 1px solid rgba(233, 69, 96, 0.2);
+            }
+
+            .nav-links.active {
+                right: 0;
+            }
+
+            .nav-links li {
+                opacity: 0;
+                transform: translateX(20px);
+                animation: slideInRight 0.3s ease forwards;
+            }
+
+            .nav-links li:nth-child(1) { animation-delay: 0.1s; }
+            .nav-links li:nth-child(2) { animation-delay: 0.2s; }
+            .nav-links li:nth-child(3) { animation-delay: 0.3s; }
+            .nav-links li:nth-child(4) { animation-delay: 0.4s; }
+
+            .nav-links a {
+                font-size: 1.3rem;
+            }
+
+            .about-content {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .experience-tabs {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .tab {
+                padding: 0.75rem 1rem;
+                text-align: left;
+            }
+
+            .resources-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-links {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+
+        @keyframes slideInRight {
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .back-to-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 50px;
+            height: 50px;
+            background: var(--highlight);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+            z-index: 999;
+            box-shadow: 0 5px 20px rgba(233, 69, 96, 0.4);
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .back-to-top:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(233, 69, 96, 0.6);
+        }
+
+        .experience-card,
+        .resource-card,
+        .stat-card {
+            cursor: pointer;
+        }
+
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.5s, visibility 0.5s;
+        }
+
+        .loading-overlay.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .loader {
+            width: 50px;
+            height: 50px;
+            border: 4px solid rgba(233, 69, 96, 0.2);
+            border-top-color: var(--highlight);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .scroll-indicator {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            z-index: 100;
+            animation: bounce 2s infinite;
+        }
+
+        .scroll-indicator::after {
+            content: '↓';
+            font-size: 1.5rem;
+            color: var(--highlight);
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateX(-50%) translateY(0);
+            }
+            40% {
+                transform: translateX(-50%) translateY(-10px);
+            }
+            60% {
+                transform: translateX(-50%) translateY(-5px);
+            }
+        }
+
+        #about:target .about-content,
+        #experience:target .tab-content,
+        #resources:target .resources-grid,
+        #contact:target .contact-content {
+            animation: fadeInUp 0.6s ease-out;
+        }
+    </style>
+</head>
+<body>
+    <div class="loading-overlay">
+        <div class="loader"></div>
+    </div>
+    
+    <div class="noise-overlay"></div>
+    
+    <nav>
+        <div class="logo" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">Shashank Saxena</div>
+        <div class="mobile-menu-toggle">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <ul class="nav-links">
+            <li><a href="#about">About</a></li>
+            <li><a href="#experience">Experience</a></li>
+            <li><a href="#resources">PM Resources</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <button class="back-to-top" aria-label="Back to top">↑</button>
+
+    <section class="hero">
+        <div class="container">
+            <h1>Building Products That Matter</h1>
+            <p class="subtitle">Product Manager | AdTech & Search Expert | AI Enthusiast</p>
+            <p class="tagline">
+                13 years of transforming ideas into scalable products across enterprise B2B/B2C platforms, 
+                with deep expertise in ad-tech monetization, search advertising, and AI-driven product discovery.
+            </p>
+            <a href="#about" class="cta-button">Explore My Journey</a>
+        </div>
+        <div class="scroll-indicator">Scroll to explore</div>
+    </section>
+
+    <section id="about">
+        <div class="container">
+            <h2 class="section-title">About Me</h2>
+            <p class="section-subtitle">A decade-plus journey in product management, from startups to enterprise giants</p>
+            
+            <div class="about-content">
+                <div class="about-text">
+                    <p>
+                        I'm <span class="highlight-text">Shashank Saxena</span>, a Lead Product Manager currently at Lowe's India, 
+                        where I've pioneered rapid AI prototyping practices and led transformative initiatives in ad-tech monetization.
+                    </p>
+                    <p>
+                        My career spans building <span class="highlight-text">enterprise-grade B2B/B2C platforms</span> for organizations 
+                        like Lowe's, Airtel, Shaadi.com, Knowlarity, and Quikr. I specialize in <span class="highlight-text">ad-tech monetization, 
+                        search ads, and AI-driven product discovery</span>.
+                    </p>
+                    <p>
+                        At Lowe's, I've scaled the Sponsored Product Ads program from zero to one state, targeting a 
+                        <span class="highlight-text">$100M+ ad margin impact</span>. I introduced rapid prototyping using Windsurf, 
+                        scaling our practice from 2 to 9 PM team members.
+                    </p>
+                    <p>
+                        I'm an <span class="highlight-text">IIT Guwahati graduate</span> with deep technical expertise in Python, SQL, 
+                        AWS, and GenAI tools. I believe in data-driven decision making, rapid prototyping, and building products that 
+                        create genuine value for users.
+                    </p>
+                </div>
+                
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-number">13+</div>
+                        <div class="stat-label">Years in Product Management</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">$100M+</div>
+                        <div class="stat-label">Target Ad Margin Impact</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">0→1</div>
+                        <div class="stat-label">Scaled Multiple Products</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">2x</div>
+                        <div class="stat-label">Individual Excellence Awards</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="experience">
+        <div class="container">
+            <h2 class="section-title">Experience</h2>
+            <p class="section-subtitle">Deep expertise in the technologies and domains that power modern digital products</p>
+            
+            <div class="experience-tabs">
+                <button class="tab active" onclick="switchTab('search')">Search & Discovery</button>
+                <button class="tab" onclick="switchTab('adtech')">AdTech</button>
+                <button class="tab" onclick="switchTab('ai')">AI & Prototyping</button>
+            </div>
+
+            <div id="search-content" class="tab-content active">
+                <div class="experience-grid">
+                    <div class="experience-card">
+                        <div class="card-icon">🔍</div>
+                        <h3 class="card-title">Search Advertising</h3>
+                        <p class="card-description">
+                            Built comprehensive search ads solutions integrating Google Search Ads API with real-time budget 
+                            pacing and monitoring capabilities for thousands of SKU campaigns.
+                        </p>
+                        <ul class="card-list">
+                            <li>Multi-channel campaign manager for Google Search Ads</li>
+                            <li>Real-time budget pacing dashboard</li>
+                            <li>Automated spend forecasting and prevention</li>
+                            <li>High-intent keyword targeting at scale</li>
+                        </ul>
+                    </div>
+
+                    <div class="experience-card">
+                        <div class="card-icon">🎯</div>
+                        <h3 class="card-title">Product Discovery</h3>
+                        <p class="card-description">
+                            Pioneered AI-driven recommendation systems and match-scoring algorithms that significantly 
+                            improved user engagement and conversion metrics.
+                        </p>
+                        <ul class="card-list">
+                            <li>25% gain in match ratio at Shaadi.com</li>
+                            <li>3% MoM order increase through better recommendations</li>
+                            <li>Listing filters and recommendation engines at Quikr</li>
+                            <li>ML-based fraud prevention reducing misuses by 15%</li>
+                        </ul>
+                    </div>
+
+                    <div class="experience-card">
+                        <div class="card-icon">📊</div>
+                        <h3 class="card-title">Search Analytics</h3>
+                        <p class="card-description">
+                            Implemented comprehensive analytics frameworks to track search performance, user behavior, 
+                            and conversion funnels across multiple platforms.
+                        </p>
+                        <ul class="card-list">
+                            <li>Google Analytics, Tableau, Adobe Analytics integration</li>
+                            <li>Cohort analysis and bounce rate optimization</li>
+                            <li>A/B testing frameworks for search features</li>
+                            <li>Real-time dashboards for stakeholder visibility</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div id="adtech-content" class="tab-content">
+                <div class="experience-grid">
+                    <div class="experience-card">
+                        <div class="card-icon">💰</div>
+                        <h3 class="card-title">Sponsored Product Ads</h3>
+                        <p class="card-description">
+                            Product owner for onsite monetization at Lowe's (2nd largest home improvement retailer in the US). 
+                            Scaled from 0 to 1 state with $100M+ target ad margin impact.
+                        </p>
+                        <ul class="card-list">
+                            <li>Integrated with Criteo SSP for programmatic advertising</li>
+                            <li>Self-serve campaign creation for vendors</li>
+                            <li>Real-time bidding and auction mechanisms</li>
+                            <li>Performance tracking and ROI optimization</li>
+                        </ul>
+                    </div>
+
+                    <div class="experience-card">
+                        <div class="card-icon">🎛️</div>
+                        <h3 class="card-title">Ad-Serving Platform</h3>
+                        <p class="card-description">
+                            Launched comprehensive in-house ad-server including campaign manager, unified reporting, 
+                            and audience manager integration. Improved ROAS by 20%.
+                        </p>
+                        <ul class="card-list">
+                            <li>Campaign creation and management tools</li>
+                            <li>Unified reporting across channels</li>
+                            <li>Audience segmentation and targeting</li>
+                            <li>Self-serve insights and analytics</li>
+                        </ul>
+                    </div>
+
+                    <div class="experience-card">
+                        <div class="card-icon">🌐</div>
+                        <h3 class="card-title">Multi-Channel Campaigns</h3>
+                        <p class="card-description">
+                            Extended Lowe's ad-server to manage Meta, Pinterest, and Google Search Ads with first-party 
+                            data mapping for high-intent off-platform targeting.
+                        </p>
+                        <ul class="card-list">
+                            <li>Cross-platform campaign orchestration</li>
+                            <li>First-party data activation</li>
+                            <li>Attribution modeling across channels</li>
+                            <li>Functional prototypes for business validation</li>
+                        </ul>
+                    </div>
+
+                    <div class="experience-card">
+                        <div class="card-icon">👥</div>
+                        <h3 class="card-title">Audience Platform</h3>
+                        <p class="card-description">
+                            Built lookalike audience platform at Airtel X Labs, reducing development time from 3 weeks 
+                            to 4 days. Integrated with Vmax SDK for precise targeting.
+                        </p>
+                        <ul class="card-list">
+                            <li>ML-powered lookalike modeling</li>
+                            <li>Reduced audience creation time by 80%</li>
+                            <li>SDK integration for mobile advertising</li>
+                            <li>Real-time audience refresh capabilities</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div id="ai-content" class="tab-content">
+                <div class="experience-grid">
+                    <div class="experience-card">
+                        <div class="card-icon">⚡</div>
+                        <h3 class="card-title">Rapid AI Prototyping</h3>
+                        <p class="card-description">
+                            Introduced Product Builder Practice at Lowe's using Windsurf/Cascade for rapid feature validation. 
+                            Scaled practice from 2 to 9 PM team members.
+                        </p>
+                        <ul class="card-list">
+                            <li>GenAI tools: Llama 3.1, Grok, Cascade</li>
+                            <li>Functional prototype development in days vs weeks</li>
+                            <li>Business team validation before engineering investment</li>
+                            <li>Knowledge sharing and team scaling</li>
+                        </ul>
+                    </div>
+
+                    <div class="experience-card">
+                        <div class="card-icon">🤖</div>
+                        <h3 class="card-title">AI-Powered Features</h3>
+                        <p class="card-description">
+                            Leveraged AI and ML across product lifecycle from fraud detection to personalization, 
+                            creating intelligent, self-improving product experiences.
+                        </p>
+                        <ul class="card-list">
+                            <li>ML-based fraud prevention systems</li>
+                            <li>AI-driven recommendation engines</li>
+                            <li>Speech recognition and NLP (KATIE platform)</li>
+                            <li>Predictive analytics for user behavior</li>
+                        </ul>
+                    </div>
+
+                    <div class="experience-card">
+                        <div class="card-icon">💡</div>
+                        <h3 class="card-title">Innovation Leadership</h3>
+                        <p class="card-description">
+                            Championed adoption of cutting-edge technologies and methodologies to accelerate product 
+                            development and improve outcomes.
+                        </p>
+                        <ul class="card-list">
+                            <li>Introduced rapid prototyping culture</li>
+                            <li>Individual Excellence Awards (Q3 2023, Q3 2024)</li>
+                            <li>Spot Award Program (Q1 2024)</li>
+                            <li>Cross-functional AI adoption advocacy</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="resources">
+        <div class="container">
+            <h2 class="section-title">PM Resources</h2>
+            <p class="section-subtitle">Trending topics and insights for aspiring product managers</p>
+            
+            <div class="resources-grid">
+                <div class="resource-card">
+                    <span class="resource-tag">AI & ML</span>
+                    <h3 class="resource-title">AI-First Product Strategy</h3>
+                    <p class="resource-description">
+                        How to integrate GenAI and LLMs into your product roadmap. Learn about rapid prototyping, 
+                        prompt engineering, and building AI-powered features that create real user value.
+                    </p>
+                </div>
+
+                <div class="resource-card">
+                    <span class="resource-tag">AdTech</span>
+                    <h3 class="resource-title">Monetization Models</h3>
+                    <p class="resource-description">
+                        Deep dive into programmatic advertising, SSP/DSP integration, auction mechanisms, and building 
+                        profitable ad platforms. Understanding ROAS, CPM, CPC, and other key metrics.
+                    </p>
+                </div>
+
+                <div class="resource-card">
+                    <span class="resource-tag">Product Discovery</span>
+                    <h3 class="resource-title">Search & Recommendation Systems</h3>
+                    <p class="resource-description">
+                        Building intelligent search and discovery experiences. Learn about ranking algorithms, 
+                        personalization, A/B testing, and measuring search quality and relevance.
+                    </p>
+                </div>
+
+                <div class="resource-card">
+                    <span class="resource-tag">Data</span>
+                    <h3 class="resource-title">Data-Driven Decision Making</h3>
+                    <p class="resource-description">
+                        Master SQL, analytics tools, and dashboarding. Learn to identify the right metrics, 
+                        run experiments, and use data to inform product decisions and prioritization.
+                    </p>
+                </div>
+
+                <div class="resource-card">
+                    <span class="resource-tag">0→1</span>
+                    <h3 class="resource-title">Building Products from Scratch</h3>
+                    <p class="resource-description">
+                        Lessons from scaling multiple 0→1 products. Market validation, MVP definition, 
+                        stakeholder management, and iterating to product-market fit.
+                    </p>
+                </div>
+
+                <div class="resource-card">
+                    <span class="resource-tag">Enterprise</span>
+                    <h3 class="resource-title">B2B Product Management</h3>
+                    <p class="resource-description">
+                        Navigate complex enterprise sales cycles, multi-stakeholder requirements, and building 
+                        products that serve both end users and enterprise buyers effectively.
+                    </p>
+                </div>
+
+                <div class="resource-card">
+                    <span class="resource-tag">Strategy</span>
+                    <h3 class="resource-title">Product Roadmapping</h3>
+                    <p class="resource-description">
+                        Create compelling roadmaps that balance business goals, user needs, and technical constraints. 
+                        Prioritization frameworks, OKRs, and communicating vision to stakeholders.
+                    </p>
+                </div>
+
+                <div class="resource-card">
+                    <span class="resource-tag">Skills</span>
+                    <h3 class="resource-title">Technical Depth for PMs</h3>
+                    <p class="resource-description">
+                        Why technical knowledge matters and what to learn. APIs, databases, system design basics, 
+                        and communicating effectively with engineering teams.
+                    </p>
+                </div>
+
+                <div class="resource-card">
+                    <span class="resource-tag">Career</span>
+                    <h3 class="resource-title">Breaking into Product Management</h3>
+                    <p class="resource-description">
+                        Transitioning into PM roles, building a portfolio, networking strategies, and preparing 
+                        for PM interviews. Real examples from a 13-year journey.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact">
+        <div class="container">
+            <div class="contact-content">
+                <h2 class="section-title">Let's Connect</h2>
+                <p class="section-subtitle">
+                    Always happy to discuss product management, share insights, or explore collaboration opportunities.
+                </p>
+                
+                <div class="contact-links">
+                    <a href="mailto:Shashank.sxn@gmail.com" class="contact-link">
+                        <span>📧</span>
+                        <span>Email Me</span>
+                    </a>
+                    <a href="https://www.linkedin.com/in/shashank-saxena-28a58620/" target="_blank" class="contact-link">
+                        <span>💼</span>
+                        <span>LinkedIn</span>
+                    </a>
+                    <a href="tel:+919686846303" class="contact-link">
+                        <span>📱</span>
+                        <span>Call Me</span>
+                    </a>
+                </div>
+
+                <p style="margin-top: 3rem; color: var(--text-muted);">
+                    Based in Bangalore, India 🇮🇳<br>
+                    Open to remote opportunities and consulting engagements
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Shashank Saxena. All rights reserved.</p>
+            <p style="margin-top: 0.5rem; font-size: 0.9rem;">
+                IIT Guwahati Graduate | NTSE Scholar | Product Management Leader
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // Loading screen
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.querySelector('.loading-overlay').classList.add('hidden');
+            }, 500);
+        });
+
+        // Mobile menu toggle
+        const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+        const navLinks = document.querySelector('.nav-links');
+        
+        mobileMenuToggle.addEventListener('click', () => {
+            mobileMenuToggle.classList.toggle('active');
+            navLinks.classList.toggle('active');
+            document.body.style.overflow = navLinks.classList.contains('active') ? 'hidden' : '';
+        });
+
+        // Close mobile menu when clicking on a link
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenuToggle.classList.remove('active');
+                navLinks.classList.remove('active');
+                document.body.style.overflow = '';
+            });
+        });
+
+        // Tab switching
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            
+            event.target.classList.add('active');
+            document.getElementById(tabName + '-content').classList.add('active');
+        }
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    const offsetTop = target.offsetTop - 80;
+                    window.scrollTo({
+                        top: offsetTop,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Back to top button
+        const backToTop = document.querySelector('.back-to-top');
+        
+        backToTop.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // Navbar scroll effect and back to top visibility
+        let lastScroll = 0;
+        const nav = document.querySelector('nav');
+
+        window.addEventListener('scroll', () => {
+            const currentScroll = window.pageYOffset;
+            
+            // Navbar effect
+            if (currentScroll > 100) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+
+            // Back to top button
+            if (currentScroll > 500) {
+                backToTop.classList.add('visible');
+            } else {
+                backToTop.classList.remove('visible');
+            }
+
+            lastScroll = currentScroll;
+        });
+
+        // Hide scroll indicator after first scroll
+        let hasScrolled = false;
+        const scrollIndicator = document.querySelector('.scroll-indicator');
+        
+        window.addEventListener('scroll', () => {
+            if (!hasScrolled && window.scrollY > 100) {
+                hasScrolled = true;
+                if (scrollIndicator) {
+                    scrollIndicator.style.opacity = '0';
+                    scrollIndicator.style.transition = 'opacity 0.5s';
+                    setTimeout(() => {
+                        scrollIndicator.style.display = 'none';
+                    }, 500);
+                }
+            }
+        });
+
+        // Add active state to nav links based on scroll position
+        const sections = document.querySelectorAll('section[id]');
+        const navLinksAll = document.querySelectorAll('.nav-links a');
+
+        window.addEventListener('scroll', () => {
+            const scrollPosition = window.scrollY + 150;
+
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.offsetHeight;
+                const sectionId = section.getAttribute('id');
+                
+                if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+                    navLinksAll.forEach(link => {
+                        link.classList.remove('active');
+                        if (link.getAttribute('href') === `#${sectionId}`) {
+                            link.classList.add('active');
+                        }
+                    });
+                }
+            });
+        });
+
+        // Intersection Observer for scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe cards for animation
+        document.querySelectorAll('.experience-card, .resource-card, .stat-card').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(30px)';
+            card.style.transition = 'all 0.6s ease-out';
+            observer.observe(card);
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && navLinks.classList.contains('active')) {
+                mobileMenuToggle.classList.remove('active');
+                navLinks.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        });
+
+        // Add hover effect to cards
+        document.querySelectorAll('.experience-card, .resource-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-8px) scale(1.02)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+    </script>
+</body>
+</html>
